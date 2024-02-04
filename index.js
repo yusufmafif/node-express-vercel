@@ -1,7 +1,7 @@
 // Import packages
 const express = require("express");
 const home = require("./routes/home");
-const hw = require("./routes/helloworld");
+// const hw = require("./routes/helloworld");
 
 // Middlewares
 const app = express();
