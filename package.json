@@ -5,6 +5,9 @@
   "author": "Hayk Simonyan",
   "license": "",
   "main": "server.js",
+  "engines" : {
+    "node" : "14.x"
+  },
   "scripts": {
     "start": "node server.js"
   },
