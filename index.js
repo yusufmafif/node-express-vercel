@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Routes
 app.use("/home", home);
-app.use("/", hw);
+// app.use("/", hw);
 
 // connection
 const port = process.env.PORT || 9001;
