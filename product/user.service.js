@@ -33,9 +33,13 @@ const createUser = async (data) => {
     });
 }
 
-
+const getAllUser = async () => {
+    const user = await prisma.user.findMany();
+    return user;
+}
 
 module.exports = {
-    createUser
+    createUser,
+    getAllUser
 }
 
