@@ -15,7 +15,6 @@ const accessValidation = (req, res, next) => {
     }
     const token = authorization.split(" ")[1];
     const secret = process.env.JWT_SECRET;
-
     try {
         const jwtDecode = jwt.verify(token, secret)
         req.userData = jwtDecode
@@ -31,7 +30,7 @@ router.post("/", async (req, res) => {
     const newUserData = req.body;
     try {
         const user = await createUser(newUserData);
-        res.send("User created successfully");
+        res.status(201).send("User created successfully");
     } catch (error) {
         res.status(400).send(error.message);
     }
