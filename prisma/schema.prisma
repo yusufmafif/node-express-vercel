@@ -8,17 +8,16 @@ datasource db {
 }
 
 model Product {
-  id          Int           @id @default(autoincrement())
-  uuid        String        @unique
-  itemBarcode String        @unique
-  name        String
-  unit        String
-  price       Int
-  description String
-  image       String
-  categoryId  String
-  Transaction Transaction[]
-  category    Categories    @relation(fields: [categoryId], references: [name])
+  id           Int        @id @default(autoincrement())
+  uuid         String     @unique
+  itemBarcode  String     @unique
+  name         String
+  unit         String
+  price        Int
+  description  String
+  image        String
+  categoryName String
+  category     Categories @relation(fields: [categoryName], references: [name])
 }
 
 model Categories {
@@ -42,10 +41,10 @@ model Transaction {
   id                 Int                  @id @default(autoincrement())
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  quantity           Int
-  productId          Int
+  paymentMethod      String
+  discount           Int
+  totalPrice         Int
   userId             Int
-  product            Product              @relation(fields: [productId], references: [id])
   user               User                 @relation(fields: [userId], references: [id])
   TransactionDetails TransactionDetails[]
 }
