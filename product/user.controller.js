@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.get("/",accessValidation, async (req, res) => {
+router.get("/", async (req, res) => {
     const user = await getAllUser();
     res.send(user);
 })
