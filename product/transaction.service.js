@@ -40,7 +40,7 @@ const createData = async (dataArray) => {
                     }
                 },
                 user: {
-                    connect: {
+                    connect: {      
                         id: data.userId
                     }
                 },          
@@ -48,14 +48,14 @@ const createData = async (dataArray) => {
             }
         }); 
         transactions.push(transaction);
-    }       
+    }           
     return transactions;    
 }
 
 
 const updateData = async (id, data) => {
     const product = await prisma.product.update({
-        where: {
+        where: {    
             id: parseInt(id)
         },
         data: {
