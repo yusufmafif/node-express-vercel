@@ -29,28 +29,44 @@ const deleteProductbyId = async (id) => {
     });
 }
 
-const createData = async (dataArray) => {
-    const transactions = [];
-    for (const data of dataArray) {
+const createData = async (transactionData) => {
+    try {
         const transaction = await prisma.transaction.create({
             data: {
-                product: {
+                paymentMethod: transactionData.paymentMethod,
+                discount: transactionData.discount,
+                totalPrice: transactionData.totalPrice,
+                user: {
                     connect: {
-                        id: data.productId
+                        id: transactionData.userId
                     }
                 },
-                user: {
-                    connect: {      
-                        id: data.userId
-                    }
-                },          
-                quantity: data.quantity
+                transactionDetails: {
+                    create: transactionData.details.map(detail => ({
+                        productPrice: detail.productPrice,
+                        subTotalPrice: detail.subTotalPrice,
+                        quantity: detail.quantity,
+                        product: {
+                            connect: {
+                                id: detail.productId
+                            }
+                        }
+                    }))
+                }
+            },
+            include: {
+                transactionDetails: true
             }
-        }); 
-        transactions.push(transaction);
-    }           
-    return transactions;    
+        });
+        console.log('Transaksi berhasil dibuat:', transaction);
+        return transaction;
+    } catch (error) {
+        console.error('Gagal membuat transaksi:', error);
+        throw error;
+    }   
 }
+
+
 
 
 const updateData = async (id, data) => {
