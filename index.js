@@ -7,7 +7,10 @@ const app = express();
 
 // Use cors middleware to allow requests from any origin
 app.use(cors(
-    { origin: "https://cashier-pos.netlify.app" }
+    {
+        origin: "https://cashier-pos.netlify.app",
+        credentials: true
+    }
 ));
 
 // Routes
