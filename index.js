@@ -1,17 +1,16 @@
 // Import packages
 const express = require("express");
 const home = require("./routes/home");
-const cors = require("cors");
 
 const app = express();
 
 // Use cors middleware to allow requests from any origin
-app.use(cors(
-    {
-        origin: "https://cashier-pos.netlify.app",
-        credentials: true
-    }
-));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", " Content-Type, Authorization");
+    next();
+});
 
 // Routes
 // Middlewares
