@@ -4,21 +4,14 @@ const home = require("./routes/home");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({
-  origin: '*'
-}));
+
+// Use cors middleware to allow requests from any origin
+app.use(cors());
+
 // Routes
 // Middlewares
 app.use(express.json());
 app.use("/", home);
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
 
 const productController = require("./product/product.controller");
 const productsController = require("./product/products.controller");
@@ -29,15 +22,14 @@ const transactionController = require("./product/transaction.controller");
 const authController = require("./product/auth.controller");
 const logoutController = require("./product/logout.controller");
 
-app.use("/login", loginController)
-app.use("/register", registerController)
-app.use("/users", userController)
-app.use("/products", productsController)
-app.use("/item", productController)
-app.use("/transaction", transactionController)
-app.use("/me", authController)
+app.use("/login", loginController);
+app.use("/register", registerController);
+app.use("/users", userController);
+app.use("/products", productsController);
+app.use("/item", productController);
+app.use("/transaction", transactionController);
+app.use("/me", authController);
 // app.use("/logout", logoutController)
-
 
 // connection
 const port = process.env.PORT || 9001;
