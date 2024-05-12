@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors({
-  origin: 'https://cashier-pos.netlify.app, http://localhost:5173'
+  origin: '*'
 }));
 // Routes
 // Middlewares
@@ -13,12 +13,12 @@ app.use(express.json());
 app.use("/", home);
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://cashier-pos.netlify.app, http://localhost:5173');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 const productController = require("./product/product.controller");
 const productsController = require("./product/products.controller");
@@ -30,8 +30,8 @@ const authController = require("./product/auth.controller");
 const logoutController = require("./product/logout.controller");
 
 app.use("/login", loginController)
-app.use("/register",  registerController)
-app.use("/users",  userController)
+app.use("/register", registerController)
+app.use("/users", userController)
 app.use("/products", productsController)
 app.use("/item", productController)
 app.use("/transaction", transactionController)
