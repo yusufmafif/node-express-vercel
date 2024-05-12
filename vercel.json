@@ -20,7 +20,7 @@
             ],
             "headers": {
                 "Access-Control-Allow-Origin": "https://cashier-pos.netlify.app",
-                "Access-Control-Allow-Crentials": "true"
+                "Access-Control-Allow-Credentials": "true"
             }
         }
     ]
