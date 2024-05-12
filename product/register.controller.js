@@ -2,7 +2,7 @@ const express = require("express");
 const prisma = require("../db");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
-const { createUser, getAllUser, getUserById, editUserById} = require("./user.service");
+const { createUser, getAllUser } = require("./user.service");
 
 const router = express.Router();
 
@@ -41,18 +41,4 @@ router.get("/", accessValidation, async (req, res) => {
     res.send(user);
 })
 
-router.get("/:id", accessValidation, async (req, res) => {
-    const id = req.params.id;
-    const user = await getUserById(id);
-    res.send(user);
-})
-
-router.put("/:id", accessValidation, async (req, res) => {
-    const id = req.params.id;
-    const newUserData = req.body;
-    const user = await editUserById(id, newUserData);
-    res.send("Success");
-})
-
-
-module.exports = router
+module.exports = router 

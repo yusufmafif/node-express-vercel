@@ -9,7 +9,12 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password)
+    if (!email || !password) {
+        return res.status(400).send({
+            message: "Email and password are required"
+        })
+    }
+
     const user = await prisma.user.findUnique(
         {
             where: {
@@ -32,20 +37,23 @@ router.post("/", async (req, res) => {
         const payload = {
             id: user.id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role : user.role
         }
-
         const secret = process.env.JWT_SECRET;
         const expiresIn = 60 * 60 * 1;
-
         const token = jwt.sign(payload, secret, { expiresIn: expiresIn });
+        const name = payload.username
         return res.json({
             data: {
-                id: user.id,
-                username: user.username,
-                email: user.email,
+                id: payload.id,
+                username: payload.username,
+                email: payload.email,
             },
-            token: token
+            token: token,
+            auth: true,
+            name: name,
+            id : payload.id
         })
 
     } else {

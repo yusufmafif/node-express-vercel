@@ -1,18 +1,18 @@
 const express = require("express");
 const prisma = require("../db");
-const { getAllProducts, getProductbyId, deleteProductbyId, updateData, replaceData } = require("./product.service");
-const {createData, getAllTransaction} = require("./transaction.service");
+const { getProductbyId, getAllProducts, getProductbyName, deleteProductbyId, createData, updateData, replaceData } = require("./product.service");
+
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const transactions = await getAllTransaction();
-    res.send(transactions);
+    const products = await getAllProducts();
+    res.send(products);
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:name", async (req, res) => {
     try {
-        const id = req.params.id;
-        const product = await getProductbyId(parseInt(id));
+        const name = req.params.name;
+        const product = await getProductbyName(name);
         if (product) {
             res.send(product);
         } else {
@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const productId = req.params.id;
-        const deleteProduct = await deleteProductbyId(parseInt(productId));
+        const deleteProduct = await deleteProductbyId(productId);
         res.send("Product deleted successfully");
     } catch (error) {
         res.status(400).send(error.message);
@@ -36,10 +36,9 @@ router.delete("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const transaction = req.body;
-    console.log(transaction)
-    const createTransaction = await createData(transaction);
-    res.status(201).send("Transaction created successfully");
+    const newProductData = req.body;
+    const createProduct = await createData(newProductData);
+    res.status(201).send("Product created successfully");
 })
 
 router.put("/:id", async (req, res) => {

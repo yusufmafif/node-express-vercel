@@ -20,7 +20,7 @@ const getProductbyId = async (id) => {
 const deleteProductbyId = async (id) => {
 
     await getProductbyId(id);
-  
+
 
     await prisma.product.delete({
         where: {
@@ -29,7 +29,8 @@ const deleteProductbyId = async (id) => {
     });
 }
 
-const createData = async (transactionData) => {
+const createData = async (data) => {
+    const { transactionData } = data
     try {
         const transaction = await prisma.transaction.create({
             data: {
@@ -63,7 +64,7 @@ const createData = async (transactionData) => {
     } catch (error) {
         console.error('Gagal membuat transaksi:', error);
         throw error;
-    }   
+    }
 }
 
 
@@ -71,7 +72,7 @@ const createData = async (transactionData) => {
 
 const updateData = async (id, data) => {
     const product = await prisma.product.update({
-        where: {    
+        where: {
             id: parseInt(id)
         },
         data: {
