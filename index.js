@@ -3,13 +3,13 @@ const express = require("express");
 const home = require("./routes/home");
 const cors = require("cors");
 
-// Middlewares
 const app = express();
-app.use(express.json());
 app.use(cors({
   origin: 'https://cashier-pos.netlify.app, http://localhost:5173'
 }));
 // Routes
+// Middlewares
+app.use(express.json());
 app.use("/", home);
 
 app.use((req, res, next) => {
