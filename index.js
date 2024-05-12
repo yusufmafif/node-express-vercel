@@ -6,7 +6,9 @@ const cors = require("cors");
 // Middlewares
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://cashier-pos.netlify.app, http://localhost:5173'
+}));
 // Routes
 app.use("/", home);
 
