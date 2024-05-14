@@ -6,9 +6,10 @@ const app = express();
 
 // Use cors middleware to allow requests from any origin
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://cashier-pos.netlify.app");
+    res.setHeader("Access-Control-Allow-Origin", process.env.DEV_ADDRESS);
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", " Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
 });
 
@@ -30,7 +31,7 @@ app.use("/login", loginController);
 app.use("/register", registerController);
 app.use("/users", userController);
 app.use("/products", productsController);
-app.use("/item", productController);
+app.use("/product", productController);
 app.use("/transaction", transactionController);
 app.use("/me", authController);
 // app.use("/logout", logoutController)
