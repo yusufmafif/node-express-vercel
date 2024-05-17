@@ -1,7 +1,16 @@
 const prisma = require("../db");
 
 const getAllTransaction = async () => {
-    const transactions = await prisma.transaction.findMany();
+    const transactions = await prisma.transaction.findMany({
+        include: {
+            user: {
+                select: {
+                    username: true
+                }
+            }
+        }
+    }
+    );
     return transactions;
 }
 
