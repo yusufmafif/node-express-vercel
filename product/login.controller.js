@@ -44,7 +44,19 @@ router.post("/", async (req, res) => {
         const expiresIn = 60 * 60 * 1;
         const token = jwt.sign(payload, secret, { expiresIn: expiresIn });
         const name = payload.username
-        return res.json({
+        // return res.json({
+        //     data: {
+        //         id: payload.id,
+        //         username: payload.username,
+        //         email: payload.email,
+        //     },
+        //     token: token,
+        //     auth: true,
+        //     name: name,
+        //     id : payload.id
+        // })
+
+        return res.cookie("token", token, { httpOnly: true  }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -55,7 +67,6 @@ router.post("/", async (req, res) => {
             name: name,
             id : payload.id
         })
-
     } else {
         return res.status(400).send({
             message: "Invalid password"
