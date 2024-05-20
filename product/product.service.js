@@ -2,7 +2,19 @@ const prisma = require("../db");
 
 
 const getAllProducts = async () => {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+        where: {
+            isDeleted: false
+        }
+    });
+    return products;
+}
+const getAllProductsDisabled = async () => {
+    const products = await prisma.product.findMany({
+        where: {
+            isDeleted: true
+        }
+    });
     return products;
 }
 
@@ -11,8 +23,9 @@ const getProductbyName = async (name) => {
         where: {
             name: {
                 contains: name,
-                mode: 'insensitive' // mode 'insensitive' digunakan untuk mencocokkan tanpa memperhatikan huruf besar/kecil (case-insensitive)
-            }
+                mode: 'insensitive' // (case-insensitive)
+            },
+            isDeleted: false
         }
     });
     if (products.length === 0) {
@@ -35,10 +48,13 @@ const getProductbyId = async (id) => {
 
 
 const deleteProductbyId = async (id) => {
-    await getProductbyId(id);
-    await prisma.product.delete({
+    // await getProductbyId(id);
+    await prisma.product.update({
         where: {
             id : Number(id)
+        }
+        , data: {
+            isDeleted: true
         }
     });
 }
@@ -96,6 +112,7 @@ module.exports = {
     createData,
     updateData,
     replaceData,
-    getProductbyId
+    getProductbyId,
+    getAllProductsDisabled
 }
 

@@ -17,6 +17,7 @@ model Product {
   image        String
   category     Categories @relation(fields: [categoryName], references: [name])
   categoryName String
+  isDeleted    Boolean    @default(false)
   transactionDetails TransactionDetails[]
 }
 

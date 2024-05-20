@@ -7,25 +7,36 @@ const { createUser, getAllUser, getUserById, editUserById} = require("./user.ser
 const router = express.Router();
 
 const accessValidation = (req, res, next) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
+    const cookieHeader = req.headers.cookie; // Mendapatkan header Cookie
+    if (!cookieHeader) {
         return res.status(401).send({
-            message: "Unauthorized",
+            message: "Unauthorized1",
         });
     }
-    const token = authorization.split(" ")[1];
+    const cookies = cookieHeader.split(';').reduce((cookiesObject, cookie) => {
+        const [name, value] = cookie.trim().split('=');
+        cookiesObject[name] = value;
+        return cookiesObject;
+    }, {});
+
+    const token = cookies.token; // Mendapatkan nilai token dari cookies
+    if (!token) {
+        return res.status(401).send({
+            message: "Unauthorized1",
+        });
+    }
+
     const secret = process.env.JWT_SECRET;
     try {
         const jwtDecode = jwt.verify(token, secret)
         req.userData = jwtDecode
+        next(); // Lanjutkan ke penanganan permintaan jika token valid
     } catch (error) {
         return res.status(401).send({
-            message: "Unauthorized",
+            message: "Unauthorized2",
         });
     }
-    next(); 
 }
-
 router.post("/",  async (req, res) => {
     const newUserData = req.body;
     try {

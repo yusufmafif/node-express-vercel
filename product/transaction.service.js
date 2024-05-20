@@ -14,16 +14,17 @@ const getAllTransaction = async () => {
     return transactions;
 }
 
-const getProductbyId = async (id) => {
-    const product = await prisma.product.findUnique({
+const getDetailTransactionById = async (id) => {
+    const transaction = await prisma.transactionDetails.findMany({
         where: {
-            id
+            transactionId: id
         }
     });
-    if (!product) {
+    console.log(transaction)
+    if (!transaction) {
         throw new Error("Product not found");
     }
-    return product;
+    return transaction;
 }
 
 const deleteProductbyId = async (id) => {
@@ -112,7 +113,7 @@ const replaceData = async (id, data) => {
 
 module.exports = {
     getAllTransaction,
-    getProductbyId,
+    getDetailTransactionById,
     deleteProductbyId,
     createData,
     updateData,

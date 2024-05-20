@@ -1,10 +1,42 @@
 const express = require("express");
 const prisma = require("../db");
-const { getAllProducts, getProductbyId, deleteProductbyId, updateData, replaceData } = require("./product.service");
-const {createData, getAllTransaction} = require("./transaction.service");
+const { getAllProducts, deleteProductbyId, updateData, replaceData } = require("./product.service");
+const {createData, getAllTransaction, getDetailTransactionById} = require("./transaction.service");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const accessValidation = (req, res, next) => {
+    const cookieHeader = req.headers.cookie; // Mendapatkan header Cookie
+    if (!cookieHeader) {
+        return res.status(401).send({
+            message: "Unauthorized1",
+        });
+    }
+    const cookies = cookieHeader.split(';').reduce((cookiesObject, cookie) => {
+        const [name, value] = cookie.trim().split('=');
+        cookiesObject[name] = value;
+        return cookiesObject;
+    }, {});
 
-router.get("/", async (req, res) => {
+    const token = cookies.token; // Mendapatkan nilai token dari cookies
+    if (!token) {
+        return res.status(401).send({
+            message: "Unauthorized1",
+        });
+    }
+
+    const secret = process.env.JWT_SECRET;
+    try {
+        const jwtDecode = jwt.verify(token, secret)
+        req.userData = jwtDecode
+        next(); // Lanjutkan ke penanganan permintaan jika token valid
+    } catch (error) {
+        return res.status(401).send({
+            message: "Unauthorized2",
+        });
+    }
+}
+
+router.get("/", accessValidation, async (req, res) => {
     const transactions = await getAllTransaction();
     res.send(transactions);
 })
@@ -12,9 +44,9 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const product = await getProductbyId(parseInt(id));
-        if (product) {
-            res.send(product);
+        const transaction = await getDetailTransactionById(parseInt(id));
+        if (transaction) {
+            res.send(transaction);
         } else {
             res.status(404).send({ message: "Product not found" });
         }
@@ -37,7 +69,6 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const transaction = req.body;
-    console.log(transaction)
     const createTransaction = await createData(transaction);
     res.status(201).send("Transaction created successfully");
 })

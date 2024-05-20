@@ -1,11 +1,12 @@
 const express = require("express");
 const prisma = require("../db");
-const { getProductbyId, getAllProducts, getProductbyName, deleteProductbyId, createData, updateData, replaceData } = require("./product.service");
+const { getProductbyId, getAllProductsDisabled, getAllProducts, getProductbyName, deleteProductbyId, createData, updateData, replaceData } = require("./product.service");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-    const products = await getAllProducts();
+router.get("/disabled", async (req, res) => {
+    const products = await getAllProductsDisabled();
+
     res.send(products);
 })
 
@@ -22,6 +23,12 @@ router.get("/:name", async (req, res) => {
     catch (error) {
         res.status(400).send(error);
     }
+})
+
+router.get("/", async (req, res) => {
+    const products = await getAllProducts();
+
+    res.send(products);
 })
 
 router.delete("/:id", async (req, res) => {
