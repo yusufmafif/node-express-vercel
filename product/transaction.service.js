@@ -20,7 +20,6 @@ const getDetailTransactionById = async (id) => {
             transactionId: id
         }
     });
-    console.log(transaction)
     if (!transaction) {
         throw new Error("Product not found");
     }
