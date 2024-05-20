@@ -22,7 +22,7 @@ const accessValidation = (req, res, next) => {
     const token = cookies.token; // Mendapatkan nilai token dari cookies
     if (!token) {
         return res.status(401).send({
-            message: "Unauthorized1",
+            message: "Unauthorized2",
         });
     }
 
@@ -33,7 +33,7 @@ const accessValidation = (req, res, next) => {
         next(); // Lanjutkan ke penanganan permintaan jika token valid
     } catch (error) {
         return res.status(401).send({
-            message: "Unauthorized2",
+            message: "Unauthorized3",
         });
     }
 }
