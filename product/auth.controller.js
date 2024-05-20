@@ -1,16 +1,12 @@
 const express = require("express");
-const prisma = require("../db");
-const { getAllProducts, getProductbyId, deleteProductbyId, updateData, replaceData } = require("./product.service");
-const { createUser } = require("./user.service");
 const jwt = require("jsonwebtoken");
-const argon2 = require("argon2");
 
 const router = express.Router();
 const accessValidation = (req, res, next) => {
     const cookieHeader = req.headers.cookie; // Mendapatkan header Cookie
     if (!cookieHeader) {
         return res.status(401).send({
-            message: "Unauthorized1",
+            message: "Unauthorized 1",
         });
     }
     const cookies = cookieHeader.split(';').reduce((cookiesObject, cookie) => {
@@ -22,7 +18,7 @@ const accessValidation = (req, res, next) => {
     const token = cookies.token; // Mendapatkan nilai token dari cookies
     if (!token) {
         return res.status(401).send({
-            message: "Unauthorized2",
+            message: "Unauthorized 2",
         });
     }
 
@@ -33,7 +29,7 @@ const accessValidation = (req, res, next) => {
         next(); // Lanjutkan ke penanganan permintaan jika token valid
     } catch (error) {
         return res.status(401).send({
-            message: "Unauthorized3",
+            message: "Unauthorized 3",
         });
     }
 }
