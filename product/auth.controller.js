@@ -11,7 +11,7 @@ const accessValidation = (req, res, next) => {
             message: "Unauthorized 1",
         });
     }
-    
+
     const cookies = cookieHeader.split(';').reduce((cookiesObject, cookie) => {
         const [name, value] = cookie.trim().split('=');
         cookiesObject[name] = value;
