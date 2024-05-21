@@ -1,17 +1,17 @@
 // Import packages
 const express = require("express");
 const home = require("./routes/home");
+const cors = require("cors");
 
 const app = express();
 
 // Use cors middleware to allow requests from any origin
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", process.env.DEV_ADDRESS);
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", " Content-Type, Authorization");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    next();
-});
+app.use(cors({
+    origin: process.env.DEV_ADDRESS,
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+    credentials: true
+}));
 
 // Routes
 // Middlewares
