@@ -14,9 +14,7 @@ router.post("/", async (req, res) => {
             message: "Email and password are required"
         })
     }
-
-    const user = await prisma.user.findUnique(
-        {
+    const user = await prisma.user.findUnique({
             where: {
                 email: email
             }
