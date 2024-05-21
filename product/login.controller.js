@@ -12,23 +12,22 @@ router.post("/", async (req, res) => {
     if (!email || !password) {
         return res.status(400).send({
             message: "Email and password are required"
-        })
+        });
     }
     const user = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
+        where: {
+            email: email
         }
-    );
+    });
     if (!user) {
         return res.status(404).send({
             message: "User not found"
-        })
+        });
     }
     if (!user.password) {
         return res.status(404).send({
             message: "Password not set"
-        })
+        });
     }
     const isPasswordValid = await argon2.verify(user.password, password);
     if (isPasswordValid) {
@@ -37,24 +36,21 @@ router.post("/", async (req, res) => {
             username: user.username,
             email: user.email,
             role : user.role
-        }
+        };
         const secret = process.env.JWT_SECRET;
         const expiresIn = 60 * 60 * 1;
         const token = jwt.sign(payload, secret, { expiresIn: expiresIn });
-        const name = payload.username
-        // return res.json({
-        //     data: {
-        //         id: payload.id,
-        //         username: payload.username,
-        //         email: payload.email,
-        //     },
-        //     token: token,
-        //     auth: true,
-        //     name: name,
-        //     id : payload.id
-        // })
+        const name = payload.username;
 
-        return res.cookie("token", token).json({
+        // Set cookie
+        res.cookie("token", token, {
+            httpOnly: true, // Hindari akses dari JavaScript di browser
+            secure: "true", // Hanya kirim cookie di HTTPS dalam produksi
+            maxAge: expiresIn * 1000, // Waktu kedaluwarsa dalam milidetik
+            sameSite: "strict" // Pastikan cookie hanya dikirimkan dalam permintaan yang sama
+        });
+
+        return res.json({
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -64,13 +60,12 @@ router.post("/", async (req, res) => {
             auth: true,
             name: name,
             id : payload.id
-        })
+        });
     } else {
         return res.status(400).send({
             message: "Invalid password"
-        })
+        });
     }
-})
+});
 
-
-module.exports = router
+module.exports = router;
