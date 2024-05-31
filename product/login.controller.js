@@ -15,10 +15,10 @@ router.post("/", async (req, res) => {
         })
     }
     const user = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
+        where: {
+            email: email
         }
+    }
     );
     if (!user) {
         return res.status(404).send({
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
             id: user.id,
             username: user.username,
             email: user.email,
-            role : user.role
+            role: user.role
         }
         const secret = process.env.JWT_SECRET;
         const expiresIn = 60 * 60 * 1;
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: true, sameSite: 'none', secure: true  }).json({
+        return res.cookie("token", token, { httpOnly: true }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -63,7 +63,7 @@ router.post("/", async (req, res) => {
             token: token,
             auth: true,
             name: name,
-            id : payload.id
+            id: payload.id
         })
     } else {
         return res.status(400).send({

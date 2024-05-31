@@ -1,21 +1,27 @@
 // Import packages
 const express = require("express");
 const home = require("./routes/home");
-
 const app = express();
 
-// Use cors middleware to allow requests from any origin
+// Middleware to set CORS headers
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", process.env.DEV_ADDRESS);
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", " Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.setHeader("Access-Control-Allow-Credentials", "true");
-    next();
+
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200); // Respond OK to preflight requests
+    } else {
+        next(); // Pass to the next middleware or route handler
+    }
 });
 
-// Routes
-// Middlewares
+// Middleware to parse JSON bodies
 app.use(express.json());
+
+// Routes
 app.use("/", home);
 
 const productController = require("./product/product.controller");
@@ -34,8 +40,8 @@ app.use("/products", productsController);
 app.use("/product", productController);
 app.use("/transaction", transactionController);
 app.use("/me", authController);
-// app.use("/logout", logoutController)
+// app.use("/logout", logoutController);
 
-// connection
+// Connection
 const port = process.env.PORT || 9001;
 app.listen(port, () => console.log(`Listening to port ${port}`));
