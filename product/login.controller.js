@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: true, sameSite : "none", secure: true }).json({
+        return res.cookie("token", token, { httpOnly: false, sameSite : "none", secure: false }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
