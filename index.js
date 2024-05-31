@@ -9,13 +9,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.setHeader("Access-Control-Allow-Credentials", "true");
-
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200); // Respond OK to preflight requests
-    } else {
-        next(); // Pass to the next middleware or route handler
-    }
+next();
 });
 
 // Middleware to parse JSON bodies
