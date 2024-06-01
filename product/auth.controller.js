@@ -15,11 +15,10 @@ const accessValidation = (req, res, next) => {
         });
     }
 
-    const secret = process.env.JWT_SECRET;
     try {
-        const jwtDecode = jwt.verify(cookieHeader.token, secret);
+        const jwtDecode = jwt.verify(cookieHeader.token, process.env.JWT_SECRET);
         req.userData = jwtDecode;
-        next(); // Lanjutkan ke penanganan permintaan jika token valid
+        next();
     } catch (error) {
         console.log("Token verification failed:", error.message);
         return res.status(401).send({
@@ -29,8 +28,6 @@ const accessValidation = (req, res, next) => {
 }
 
 router.get("/", accessValidation, async (req, res) => {
-    // Jika kode mencapai sini, berarti token valid
-    // Anda dapat menangani permintaan dengan data pengguna yang didekodekan
     const userData = req.userData;
     console.log('Token validation successful for user:', userData);
     res.status(200).json({

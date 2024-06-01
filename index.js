@@ -12,15 +12,7 @@ app.use(cors({
     credentials: true
 }));
 
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "https://cashier-pos.netlify.app");
-//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     res.setHeader("Access-Control-Allow-Credentials", "true");
-// next();
-// });
 
-app.use("/", home);
 
 const productController = require("./product/product.controller");
 const productsController = require("./product/products.controller");
@@ -31,15 +23,16 @@ const transactionController = require("./product/transaction.controller");
 const authController = require("./product/auth.controller");
 const logoutController = require("./product/logout.controller");
 
+app.use("/", home);
 app.use("/login", loginController);
+app.use("/me", authController);
 app.use("/register", registerController);
 app.use("/users", userController);
 app.use("/products", productsController);
 app.use("/product", productController);
 app.use("/transaction", transactionController);
-app.use("/me", authController);
 // app.use("/logout", logoutController);
 
-// Connection
+
 const port = process.env.PORT || 9001;
 app.listen(port, () => console.log(`Listening to port ${port}`));
