@@ -5,10 +5,9 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const accessValidation = (req, res, next) => {
-    const cookieHeader = req.cookies
-    console.log(cookieHeader)
+    const cookieHeader = (req.cookies)
+    // console.log(cookieHeader.token)
 
-    console.log(cookieHeader)
     if (!cookieHeader) {
         console.log("No cookie header present");
         return res.status(401).send({
@@ -18,7 +17,7 @@ const accessValidation = (req, res, next) => {
 
     const secret = process.env.JWT_SECRET;
     try {
-        const jwtDecode = jwt.verify(cookieHeader.split('token=')[1], secret);
+        const jwtDecode = jwt.verify(cookieHeader.token, secret);
         req.userData = jwtDecode;
         next(); // Lanjutkan ke penanganan permintaan jika token valid
     } catch (error) {
