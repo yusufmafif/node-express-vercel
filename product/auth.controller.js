@@ -1,10 +1,12 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 
+
 const router = express.Router();
 
 const accessValidation = (req, res, next) => {
-    const cookieHeader = req.headers.cookie
+    const cookieHeader = req.cookies
+    console.log(cookieHeader)
 
     console.log(cookieHeader)
     if (!cookieHeader) {
@@ -14,17 +16,17 @@ const accessValidation = (req, res, next) => {
         });
     }
 
-    const secret = process.env.JWT_SECRET;
-    try {
-        const jwtDecode = jwt.verify(cookieHeader.split('token=')[1], secret);
-        req.userData = jwtDecode;
-        next(); // Lanjutkan ke penanganan permintaan jika token valid
-    } catch (error) {
-        console.log("Token verification failed:", error.message);
-        return res.status(401).send({
-            message: "Unauthorized 3",
-        });
-    }
+    // const secret = process.env.JWT_SECRET;
+    // try {
+    //     const jwtDecode = jwt.verify(cookieHeader.split('token=')[1], secret);
+    //     req.userData = jwtDecode;
+    //     next(); // Lanjutkan ke penanganan permintaan jika token valid
+    // } catch (error) {
+    //     console.log("Token verification failed:", error.message);
+    //     return res.status(401).send({
+    //         message: "Unauthorized 3",
+    //     });
+    // }
 }
 
 router.get("/", accessValidation, async (req, res) => {
