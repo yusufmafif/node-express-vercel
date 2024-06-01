@@ -3,16 +3,15 @@ const express = require("express");
 const home = require("./routes/home");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
 const app = express();
+
+const corsOptions = {
+    origin: 'https://cashier-pos.netlify.app',
+    credentials: true  // Allow cookies to be sent
+};
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cookieParser());
-app.use(cors({
-    origin: 'https://cashier-pos.netlify.app', 
-    credentials: true
-}));
-
-
+app.use(cookieParser()); 
 
 const productController = require("./product/product.controller");
 const productsController = require("./product/products.controller");

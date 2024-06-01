@@ -42,27 +42,9 @@ router.post("/", async (req, res) => {
         const expiresIn = 60 * 60 * 1;
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
         const name = payload.username
-        // return res.json({
-        //     data: {
-        //         id: payload.id,
-        //         username: payload.username,
-        //         email: payload.email,
-        //     },
-        //     token: token,
-        //     auth: true,
-        //     name: name,
-        //     id : payload.id
-        // })
-        // res.set('Set-Cookie', `token=${token}`)
-        // res.send('success')
-        return res.cookie("token", token, {
-            httpOnly: true,
-            expires: new Date(Date.now() + 900000),
-            domain: 'cashier-pos.netlify.app', // Pastikan domain sesuai
-            path: '/',
-            sameSite: 'None', // Diperlukan untuk pengiriman lintas domain
-            secure: true // Diperlukan jika menggunakan HTTPS
-        }).json({
+        res.cookie("token", token, {
+            httpOnly: true
+        }).status(200).json({
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -73,7 +55,6 @@ router.post("/", async (req, res) => {
             name: name,
             id: payload.id
         });
-
     } else {
         return res.status(400).send({
             message: "Invalid password"
