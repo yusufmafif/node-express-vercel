@@ -43,7 +43,8 @@ router.post("/", async (req, res) => {
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
         const name = payload.username
         res.cookie("token", token, {
-            httpOnly: true
+            httpOnly: true,
+            sameSite : "strict",
         }).status(200).json({
             data: {
                 id: payload.id,
