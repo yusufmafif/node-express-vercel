@@ -37,6 +37,7 @@ const accessValidation = (req, res, next) => {
             message: "Unauthorized 3",
         });
     }
+    next()
 }
 
 router.get("/", accessValidation, async (req, res) => {

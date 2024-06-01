@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000) }).json({
+        return res.cookie("token", token, { httpOnly: true }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
