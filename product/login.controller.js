@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
         }
         const secret = process.env.JWT_SECRET;
         const expiresIn = 60 * 60 * 1;
-        const token = jwt.sign(payload, secret, { expiresIn: expiresIn });
+        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
         const name = payload.username
         // return res.json({
         //     data: {
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: false}).json({
+        return res.cookie("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000) }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
