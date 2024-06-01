@@ -6,7 +6,7 @@ app.use(express.json());
 const cors = require('cors');
 
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: 'https://cashier-pos.netlify.app', 
     credentials: true
 }));
 
