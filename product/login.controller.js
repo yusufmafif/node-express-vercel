@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: true }).json({
+        return res.cookie("token", token, { httpOnly: true, domain : 'https://cashier-pos.netlify.app', path: '/' }).json({
             data: {
                 id: payload.id,
                 username: payload.username,

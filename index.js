@@ -4,7 +4,9 @@ const home = require("./routes/home");
 const app = express();
 app.use(express.json());
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 app.use(cors({
     origin: 'https://cashier-pos.netlify.app', 
     credentials: true
