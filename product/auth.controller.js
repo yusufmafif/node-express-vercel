@@ -6,8 +6,8 @@ const router = express.Router();
 
 const accessValidation = (req, res, next) => {
     const cookieHeader = (req.cookies)
-    // console.log(cookieHeader.token)
-
+    console.log(cookieHeader)
+    console.log(cookieHeader.token)
     if (!cookieHeader) {
         console.log("No cookie header present");
         return res.status(401).send({
