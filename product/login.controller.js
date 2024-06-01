@@ -53,25 +53,26 @@ router.post("/", async (req, res) => {
         //     name: name,
         //     id : payload.id
         // })
-        res.set('Set-Cookie', `${token}`)
-        return res.cookie("token", token, {
-            httpOnly: true,
-            expires: new Date(Date.now() + 900000),
-            domain: 'cashier-pos.netlify.app', // Pastikan domain sesuai
-            path: '/',
-            sameSite: 'None', // Diperlukan untuk pengiriman lintas domain
-            secure: true // Diperlukan jika menggunakan HTTPS
-        }).json({
-            data: {
-                id: payload.id,
-                username: payload.username,
-                email: payload.email,
-            },
-            token: token,
-            auth: true,
-            name: name,
-            id: payload.id
-        });
+        res.set('Set-Cookie', `token=${token}`)
+        res.send('success')
+        // return res.cookie("token", token, {
+        //     httpOnly: true,
+        //     expires: new Date(Date.now() + 900000),
+        //     domain: 'cashier-pos.netlify.app', // Pastikan domain sesuai
+        //     path: '/',
+        //     sameSite: 'None', // Diperlukan untuk pengiriman lintas domain
+        //     secure: true // Diperlukan jika menggunakan HTTPS
+        // }).json({
+        //     data: {
+        //         id: payload.id,
+        //         username: payload.username,
+        //         email: payload.email,
+        //     },
+        //     token: token,
+        //     auth: true,
+        //     name: name,
+        //     id: payload.id
+        // });
 
     } else {
         return res.status(400).send({
