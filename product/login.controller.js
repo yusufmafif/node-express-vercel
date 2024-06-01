@@ -54,7 +54,14 @@ router.post("/", async (req, res) => {
         //     id : payload.id
         // })
 
-        return res.cookie("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000), domain : 'https://cashier-pos.netlify.app', path: '/', sameSite : 'None', secure: true }).json({
+        return res.cookie("token", token, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 900000),
+            domain: 'cashier-pos.netlify.app', // Pastikan domain sesuai
+            path: '/',
+            sameSite: 'None', // Diperlukan untuk pengiriman lintas domain
+            secure: true // Diperlukan jika menggunakan HTTPS
+        }).json({
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -64,7 +71,8 @@ router.post("/", async (req, res) => {
             auth: true,
             name: name,
             id: payload.id
-        })
+        });
+
     } else {
         return res.status(400).send({
             message: "Invalid password"
