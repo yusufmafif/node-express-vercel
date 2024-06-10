@@ -13,7 +13,7 @@ const app = express();
 //     next();
 // });
 app.use(cors({
-    origin: 'https://belajarexpress.vercel.app'
+    origin: 'https://cashier-pos.netlify.app'
 }))
 
 app.use(express.json());
