@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const accessValidation = (req, res, next) => {
-    const token = (req.cookies.token)
+    // const token = req.body.token;
+    const token = req.headers['authorization'];
     console.log(token)
     if (!token) {
         console.log("No cookie header present");
@@ -26,7 +27,7 @@ const accessValidation = (req, res, next) => {
     next();
 }
 
-router.get("/", accessValidation, async (req, res) => {
+router.post("/", accessValidation, async (req, res) => {
     const userData = req.userData;
     console.log('Token validation successful for user:', userData);
     res.status(200).json({

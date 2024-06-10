@@ -39,14 +39,11 @@ router.post("/", async (req, res) => {
             role: user.role
         }
         const secret = process.env.JWT_SECRET;
-        const expiresIn = 60 * 60 * 1;
+        // const expiresIn = 60 * 60 * 1;
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
         const name = payload.username
-        res.cookie("token", token, {
-            httpOnly: true,
-            sameSite : "none",
-            secure: true,
-        }).status(200).json({
+        res.json({
+            token: token,
             data: {
                 id: payload.id,
                 username: payload.username,
@@ -56,7 +53,7 @@ router.post("/", async (req, res) => {
             auth: true,
             name: name,
             id: payload.id
-        });
+        })
     } else {
         return res.status(400).send({
             message: "Invalid password"

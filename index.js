@@ -12,13 +12,11 @@ const app = express();
 //     res.header("Access-Control-Allow-Credentials", true);
 //     next();
 // });
-app.use(
-    cors({
-    credentials: true, origin:
-        'https://cashier-pos.netlify.app'
+app.use(cors({
+    origin: 'http://localhost:5173'
 }))
+
 app.use(express.json());
-app.use(cookieParser());
 
 const productController = require("./product/product.controller");
 const productsController = require("./product/products.controller");

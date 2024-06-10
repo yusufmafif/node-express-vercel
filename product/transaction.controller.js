@@ -5,24 +5,15 @@ const {createData, getAllTransaction, getDetailTransactionById} = require("./tra
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const accessValidation = (req, res, next) => {
-    const cookieHeader = req.headers.cookie; // Mendapatkan header Cookie
+    const cookieHeader = req.headers['authorization'];
+    console.log(cookieHeader)
+
     if (!cookieHeader) {
         return res.status(401).send({
             message: "Unauthorized1",
         });
     }
-    const cookies = cookieHeader.split(';').reduce((cookiesObject, cookie) => {
-        const [name, value] = cookie.trim().split('=');
-        cookiesObject[name] = value;
-        return cookiesObject;
-    }, {});
-
-    const token = cookies.token; // Mendapatkan nilai token dari cookies
-    if (!token) {
-        return res.status(401).send({
-            message: "Unauthorized1",
-        });
-    }
+    const token = cookieHeader.split(' ')[1];
 
     const secret = process.env.JWT_SECRET;
     try {
