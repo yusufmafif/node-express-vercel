@@ -2,7 +2,7 @@ const express = require("express");
 const prisma = require("../db");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
-const { createUser, getAllUser, getUserById, editUserById} = require("./user.service");
+const { createUser, getAllUser, getUserById, editUserById, deleteUser } = require("./user.service");
 
 const router = express.Router();
 
@@ -37,7 +37,7 @@ const accessValidation = (req, res, next) => {
         });
     }
 }
-router.post("/",  async (req, res) => {
+router.post("/", async (req, res) => {
     const newUserData = req.body;
     try {
         const user = await createUser(newUserData);
@@ -47,12 +47,24 @@ router.post("/",  async (req, res) => {
     }
 })
 
-router.get("/",  async (req, res) => {
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const deleteUser1 = await deleteUser(parseInt(userId));
+        res.send("User deleted successfully");
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+
+})
+
+router.get("/", async (req, res) => {
     const user = await getAllUser();
     res.send(user);
 })
 
-router.get("/:id", accessValidation, async (req, res) => {
+router.get("/:id", async (req, res) => {
     const id = req.params.id;
     const user = await getUserById(id);
     res.send(user);

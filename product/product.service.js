@@ -51,10 +51,21 @@ const deleteProductbyId = async (id) => {
     // await getProductbyId(id);
     await prisma.product.update({
         where: {
-            id : Number(id)
-        }
-        , data: {
+            id: Number(id)
+        },
+        data: {
             isDeleted: true
+        }
+    });
+}
+const activateProductbyId = async (id) => {
+    // await getProductbyId(id);
+    await prisma.product.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            isDeleted: false
         }
     });
 }
@@ -113,6 +124,7 @@ module.exports = {
     updateData,
     replaceData,
     getProductbyId,
-    getAllProductsDisabled
+    getAllProductsDisabled,
+    activateProductbyId
 }
 

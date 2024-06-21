@@ -1,12 +1,11 @@
 const express = require("express");
 const prisma = require("../db");
 const { getAllProducts, deleteProductbyId, updateData, replaceData } = require("./product.service");
-const {createData, getAllTransaction, getDetailTransactionById} = require("./transaction.service");
+const { createData, getAllTransaction, getDetailTransactionById, deleteTransactionbyId } = require("./transaction.service");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const accessValidation = (req, res, next) => {
     const cookieHeader = req.headers['authorization'];
-    console.log(cookieHeader)
 
     if (!cookieHeader) {
         return res.status(401).send({
@@ -50,7 +49,7 @@ router.get("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const productId = req.params.id;
-        const deleteProduct = await deleteProductbyId(parseInt(productId));
+        const deleteProduct = await deleteTransactionbyId(parseInt(productId));
         res.send("Product deleted successfully");
     } catch (error) {
         res.status(400).send(error.message);

@@ -1,12 +1,11 @@
 const express = require("express");
 const prisma = require("../db");
-const { getProductbyId, getAllProductsDisabled, getAllProducts, getProductbyName, deleteProductbyId, createData, updateData, replaceData } = require("./product.service");
+const { activateProductbyId, getAllProductsDisabled, getAllProducts, getProductbyName, deleteProductbyId, createData, updateData, replaceData } = require("./product.service");
 
 const router = express.Router();
 
 router.get("/disabled", async (req, res) => {
     const products = await getAllProductsDisabled();
-
     res.send(products);
 })
 
@@ -39,7 +38,15 @@ router.delete("/:id", async (req, res) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-
+})
+router.post("/activate/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const deleteProduct = await activateProductbyId(productId);
+        res.send("Product deleted successfully");
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 })
 
 router.post("/", async (req, res) => {

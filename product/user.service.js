@@ -62,10 +62,29 @@ const editUserById = async (id, data) => {
     return user;
 }
 
+const deleteUser = async (id) => {
+if (!id) {
+    throw new Error('Invalid ID');
+}
+try {
+   
+    await prisma.user.delete({
+        where: {
+            id
+        }
+    });
+    console.log(`user with ID ${id} and its details have been deleted.`);
+} catch (error) {
+    console.error(`Error deleting transaction with ID ${id}:`, error);
+    throw error; // Re-throw the error after logging it
+}
+}
+
 module.exports = {
     createUser,
     getAllUser,
     getUserById,
-    editUserById
+    editUserById,
+    deleteUser
 }
 

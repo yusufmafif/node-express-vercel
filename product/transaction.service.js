@@ -1,5 +1,15 @@
 const prisma = require("../db");
 
+const getTransactionbyId = async (id) => {
+    const transaction = await prisma.transaction.findUnique({
+        where: id,
+        include: {
+            transactionDetails
+        }
+    })
+    return transaction
+}
+
 const getAllTransaction = async () => {
     const transactions = await prisma.transaction.findMany({
         include: {
@@ -26,17 +36,29 @@ const getDetailTransactionById = async (id) => {
     return transaction;
 }
 
-const deleteProductbyId = async (id) => {
+const deleteTransactionbyId = async (id) => {
+    if (!id) {
+        throw new Error('Invalid ID');
+    }
+    try {
+        await prisma.transactionDetails.deleteMany({
+            where: {
+                transactionId: id
+            }
+        });
 
-    await getProductbyId(id);
+        await prisma.transaction.delete({
+            where: {
+                id
+            }
+        });
+        console.log(`Transaction with ID ${id} and its details have been deleted.`);
+    } catch (error) {
+        console.error(`Error deleting transaction with ID ${id}:`, error);
+        throw error; // Re-throw the error after logging it
+    }
+};
 
-
-    await prisma.product.delete({
-        where: {
-            id
-        }
-    });
-}
 
 const createData = async (data) => {
     const { transactionData } = data
@@ -113,7 +135,7 @@ const replaceData = async (id, data) => {
 module.exports = {
     getAllTransaction,
     getDetailTransactionById,
-    deleteProductbyId,
+    deleteTransactionbyId,
     createData,
     updateData,
     replaceData
