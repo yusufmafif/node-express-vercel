@@ -86,30 +86,36 @@ const createData = async (data) => {
 }
 
 const updateData = async (id, data) => {
+    console.log(data);
     const product = await prisma.product.update({
         where: {
             id: parseInt(id)
         },
         data: {
-            name: data.name,
-            price: data.price,
+            name: data.item_name,
+            itemBarcode: data.item_barcode,
+            price: data.item_price,
             description: data.description,
-            image: data.image
+            image: data.image,
+            categoryName: data.category
         }
     });
+    console.log(product);
     return product;
 }
 
 const replaceData = async (id, data) => {
+    console.log(data.category)
     const product = await prisma.product.update({
         where: {
-            id: parseInt(id)
+            id: parseInt(id) 
         },
         data: {
             name: data.name,
             price: data.price,
             description: data.description,
-            image: data.image
+            image: data.image, 
+            categoryName: data.category
         }
     });
     return product;

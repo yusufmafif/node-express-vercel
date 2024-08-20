@@ -13,6 +13,7 @@ model Product {
   name         String     @unique
   unit         String
   price        Int
+  capitalPrice Int        @default(0)
   description  String
   image        String
   category     Categories @relation(fields: [categoryName], references: [name])

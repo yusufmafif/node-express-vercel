@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
     const id = req.params.id;
     const newProductData = req.body;
-    const product = await updateData(id, newProductData);
+    await updateData(id, newProductData);
     res.send("Product updated successfully");
 })
 
