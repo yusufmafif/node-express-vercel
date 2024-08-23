@@ -18,7 +18,7 @@ const accessValidation = (req, res, next) => {
     } catch (error) {
         console.log("Token verification failed:", error.message);
         return res.status(401).send({
-            message: "Token is malformed",
+            message: "Please login again",
         });
     }
 }
