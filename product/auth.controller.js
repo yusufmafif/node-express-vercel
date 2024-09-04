@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const accessValidation = (req, res, next) => {
-    const token = req.headers['authorization'];
+    const token = req.headers['authorization'].split(' ')[1];
     if (!token) {
         console.log("No token present");
         return res.status(401).send({
@@ -17,8 +17,9 @@ const accessValidation = (req, res, next) => {
         next();
     } catch (error) {
         console.log("Token verification failed:", error.message);
+        console.log("No token present");
         return res.status(401).send({
-            message: "Please login again",
+            message: error,
         });
     }
 }
